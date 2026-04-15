@@ -36,12 +36,18 @@ class SnakeGame {
     Deque<Point> snake = new LinkedList<>();
 
 
+
     // Точка входа в приложение
     public static void main(String[] args) throws IOException, InterruptedException {
         // реализовать запуск игры
 
         }
     }
+
+
+
+
+
 
 public void run() throws IOException, InterruptedException {
 
