@@ -48,7 +48,7 @@ class SnakeGame {
 
 
 
-
+// Главыный цикл игры
 public void run() throws IOException, InterruptedException {
 
     // сделать глобальный цикл игры в котором будут реализованы все куски
