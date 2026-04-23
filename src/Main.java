@@ -1,10 +1,10 @@
+import javax.swing.*;
+import java.awt.*;
 
+class Main {
 
-public class Main{
-
-// реализовать вывод GUI
-
-// Написать все возможные взаимодействия
-
-
+    public void main(String[] args) throws InterruptedException {
+        EventLoop gamee = new EventLoop();
+        gamee.EventLoop(33, 35, 67);
+    }
 }
