@@ -10,7 +10,7 @@ public class Snake {
     protected boolean alive;
     protected int addSegment;
     protected int countmove;
-
+    protected int score;
     // Символы для отрисовки
     char head = '●';
     char body = '○';
@@ -118,6 +118,7 @@ public class Snake {
     private void RemoveLastSegemnt() {
         if (addSegment> 0) {
             addSegment--;
+            score++;
             return;
         }
         Point _ = snake.removeLast();

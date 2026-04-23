@@ -33,15 +33,30 @@ public class EventLoop {
             ArrBootSnake[i] = new Snake( 1000, Color.RED, false);
         }
 
+        // глобал окно
         JFrame f = new JFrame("Snake");
         JTextArea area = new JTextArea();
         area.setFont(new Font("Consolas", Font.ITALIC, 25));
         area.setEditable(false);
         area.setFocusable(false);
+
+        // мини окно
+        JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // выравнивание вправо
+        JLabel scoreLabel = new JLabel(String.valueOf(snake.score));
+        scoreLabel.setFont(new Font("Consolas", Font.BOLD, 28));
+        scoreLabel.setForeground(Color.WHITE);
+        infoPanel.setBackground(Color.DARK_GRAY);
+        infoPanel.add(scoreLabel);
+
+
+        // добовление окна
+        f.add(infoPanel, BorderLayout.NORTH);
+        f.add(new JScrollPane(area), BorderLayout.CENTER);
         f.add(new JScrollPane(area));
+
+        // характеристики окна
         f.setSize(1920, 1080);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         f.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -53,6 +68,8 @@ public class EventLoop {
                 }
             }
         });
+
+        // сделать чтобы окно показывалась
         f.setVisible(true);
         f.requestFocusInWindow();
 
@@ -141,13 +158,73 @@ public class EventLoop {
 
     }
 
+
+
+
+
+
+
+
+
     public static Direction RandomMoveToFood(){
         Point head = snake.HeadSnakePoint();
+
+
+        int PlusY = FindYplusCodrd(head);
+        int MinY = FindYminCodrd(head);
+
+        int PlusX = FindXplusCodrd(head);
+        int MinX = FindXminCodrd(head);
 
 
 
         return Direction.LEFT;
     }
+
+    public static int FindYplusCodrd(Point head){
+        for (int col = head.y; col < board.getWeight(); col++) {
+             char temp = board.getPointCharBoard(head.x,col);
+            if ( board.wall == temp || snake.body == temp){
+                return -1;
+            }else if (board.food == temp){
+                return col;
+            }
+        }
+        return -1;
+    }
+
+    public static int FindYminCodrd(Point head){
+        for (int col = 0; col < board.getWeight(); col++) {
+            if ( board.wall == board.getPointCharBoard(head.x,col)){
+
+            }
+        }
+        return 0;
+    }
+
+    public static int FindXplusCodrd(Point head){
+        for (int col = 0; col < board.getWeight(); col++) {
+            if ( board.wall == board.getPointCharBoard(head.x,col)){
+
+            }
+        }
+        return 0;
+    }
+
+    public static int FindXminCodrd(Point head){
+        for (int col = 0; col < board.getWeight(); col++) {
+            if ( board.wall == board.getPointCharBoard(head.x,col)){
+
+            }
+        }
+        return 0;
+    }
+
+
+
+
+
+
 
     private void clearSnake(){
         for (Point segment : snake.HeadSnake()) {
