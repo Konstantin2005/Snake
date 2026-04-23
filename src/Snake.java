@@ -35,7 +35,7 @@ public class Snake {
             case EventLoop.Direction.LEFT -> {
 
                 Point head = snake.getFirst();
-                Point nextPoint = new Point(head.x , head.y-1);
+                Point nextPoint = new Point(head.x-1 , head.y);
 
                 if (checkHead(nextPoint)) {
                     break;
@@ -48,7 +48,7 @@ public class Snake {
             }
             case EventLoop.Direction.UP-> {
                 Point head = snake.getFirst();
-                Point nextPoint = new Point(head.x-1, head.y);
+                Point nextPoint = new Point(head.x, head.y-1);
 
                 if (checkHead(nextPoint)) {
                     break;
@@ -59,7 +59,7 @@ public class Snake {
             }
             case EventLoop.Direction.RIGHT  -> {
                 Point head = snake.getFirst();
-                Point nextPoint = new Point(head.x, head.y+1);
+                Point nextPoint = new Point(head.x+1, head.y);
 
                 if (checkHead(nextPoint)) {
                     break;
@@ -70,7 +70,7 @@ public class Snake {
             }
             case EventLoop.Direction.DOWN  -> {
                 Point head = snake.getFirst();
-                Point nextPoint = new Point(head.x+1, head.y);
+                Point nextPoint = new Point(head.x, head.y+1);
 
                 if (checkHead(nextPoint)) {
                     break;

@@ -12,10 +12,6 @@ import java.util.Scanner;
     int height = 40;
     int coeficentSpeed = 5;
 
-asdf
-asd
-
-asdf
     // Временые переменые
     int score = 0;
     int count = 0;

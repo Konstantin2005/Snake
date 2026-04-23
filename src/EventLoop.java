@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class EventLoop {
     // змейки просто
     static Snake snake = new Snake(0, Color.GREEN, false);
-    Snake[] ArrBootSnake = new Snake[33];
+    Snake[] ArrBootSnake = new Snake[1];
 
 
     // рандомайзер для движения ботов
@@ -26,7 +26,7 @@ public class EventLoop {
     int count = 1;
     int score = 0;
 
-    public void EventLoop(int SnakeCount, int weight, int height) {
+    public void EventLoop(int SnakeCount, int width, int height) {
 
 
         for (int i = 0; i < SnakeCount; i++) {
@@ -77,10 +77,10 @@ public class EventLoop {
 
         // создание базы
         gameOver = true;
-        board.InitBoard(weight, height,area);
+        board.InitBoard(height, width,area);
 
         // инициализация всего хорошего го
-        initSnakes(weight, height);
+        initSnakes(width, height);
 
                 new Thread(() -> {
             while (gameOver) {
@@ -89,22 +89,24 @@ public class EventLoop {
 //                    SpawnOnSnakeFood();
 //                    snake.clearSnake();
 //                }
-                clearSnake();
-                snake.movement = currentDir.get(); // штука читает покеде
 
+                for (Snake bot : ArrBootSnake) {
+                    // bot.movement = RandonMOVE();
+                    bot.movement = RandomMoveToFood();
+                    clearBootSnake();
+                    bot.move();
+                    PrintBootBoard();
+                }
+
+                snake.movement = currentDir.get(); // штука читает покеде
+                clearSnake();
                 snake.move();
 
-                    if(count % 2 == 0){
-                    for (Snake bot : ArrBootSnake) {
-                        clearBootSnake();
-                        bot.movement = RandonMOVE();
-                        bot.move();
-                        PrintBootBoard();
-                    }
-                }
+
                 if (count % 4 == 0) {
                     generateFood();
                 }
+
                 PrintSnakeBoard();
 
                 board.render();
@@ -159,67 +161,84 @@ public class EventLoop {
     }
 
 
-
-
-
-
-
-
-
     public static Direction RandomMoveToFood(){
         Point head = snake.HeadSnakePoint();
+        Direction[] directions = Direction.values();
+
+        int Left = Left(head);
+        int Right = Right(head);
+
+        int UP = UP(head);
+        int DOWN = DOWN(head);
 
 
-        int PlusY = FindYplusCodrd(head);
-        int MinY = FindYminCodrd(head);
 
-        int PlusX = FindXplusCodrd(head);
-        int MinX = FindXminCodrd(head);
+        if (0 <= Left ){return Direction.LEFT;}
+       if (0 <= Right){return Direction.RIGHT;}
 
-
-
-        return Direction.LEFT;
+        if (0 <= UP){return Direction.UP;}
+        if (0 <= DOWN ){return Direction.DOWN;}
+        return Direction.NONE;
     }
 
-    public static int FindYplusCodrd(Point head){
-        for (int col = head.y; col < board.getWeight(); col++) {
+    public static int Right(Point head){
+        for (int col = head.y-1; col >= 0; col--) {
              char temp = board.getPointCharBoard(head.x,col);
-            if ( board.wall == temp || snake.body == temp){
+            //System.out.println(col);
+             if (' ' == temp){continue;}
+            if ( board.wall == temp || snake.body == temp || snake.head == temp){
+                //System.out.println(col + " telo "+ temp);
                 return -1;
             }else if (board.food == temp){
+              //  System.out.println(col);
+                return col;
+            }
+        }
+        System.out.println("asdf");
+        return -1;
+    }
+
+    public static int Left(Point head){
+        for (int col = head.x; col < board.getHeight(); col++) {
+            System.out.println(col);
+            char temp = board.getPointCharBoard(col,head.y);
+            if (' ' == temp){continue;}
+            if ( board.wall == temp || snake.body == temp){
+                System.out.println(col + " telo "+ temp);
+                return -1;
+            }else if (board.food == temp){
+                System.out.println(col);
                 return col;
             }
         }
         return -1;
     }
 
-    public static int FindYminCodrd(Point head){
-        for (int col = 0; col < board.getWeight(); col++) {
-            if ( board.wall == board.getPointCharBoard(head.x,col)){
-
+    public static int UP(Point head){
+        for (int row = head.x + 1; row >= 0; row++) {
+            char temp = board.getPointCharBoard(row,head.y);
+            if (' ' == temp){continue;}
+            if ( board.wall == temp || snake.body == temp){
+                return -1;
+            }else if (board.food == temp){
+                return row;
             }
         }
-        return 0;
+        return -1;
     }
 
-    public static int FindXplusCodrd(Point head){
-        for (int col = 0; col < board.getWeight(); col++) {
-            if ( board.wall == board.getPointCharBoard(head.x,col)){
-
+    public static int DOWN(Point head){
+        for (int row = head.x ; row < board.getWeight(); row--) {
+            char temp = board.getPointCharBoard(row,head.y);
+            if (' ' == temp){continue;}
+            if ( board.wall == temp || snake.body == temp){
+                return -1;
+            }else if (board.food == temp){
+                return row;
             }
         }
-        return 0;
+        return -1;
     }
-
-    public static int FindXminCodrd(Point head){
-        for (int col = 0; col < board.getWeight(); col++) {
-            if ( board.wall == board.getPointCharBoard(head.x,col)){
-
-            }
-        }
-        return 0;
-    }
-
 
 
 

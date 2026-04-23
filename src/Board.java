@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Board {
 
-private int weight;
+private int width;
 private int height;
 public char[][] board;
 final String RED = "\u001B[31m";
@@ -22,18 +22,18 @@ final String RESET = "\u001B[0m";
 
 
 
-    public void InitBoard(int weight,int height,JTextArea textArea){
+    public void InitBoard(int height,int width,JTextArea textArea){
                this.height = height;
-               this.weight = weight;
-               board = new char[weight][height];
+               this.width = width;
+               board = new char[height][width];
             this.textArea = textArea;
 
-        for (int i = 0; i < weight; i++) {
-                   for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+                   for (int j = 0; j < width; j++) {
                        // Проверяем, находится ли текущая позиция на границе
-                       if (i == 0 || i == weight - 1 ) {
+                       if (i == 0 || i == height - 1 ) {
                            board[i][j] = roof; // Граница
-                       } else if (j == 0 || j == height - 1) {
+                       } else if (j == 0 || j == width - 1) {
                            board[i][j] = wall;
                        }else{
                            board[i][j] = ' ';
@@ -46,16 +46,16 @@ final String RESET = "\u001B[0m";
     // Ставит 4 угла
     private void spawn() {
         board[0][0] = one;
-        board[weight-1][0] = two;
-        board[weight-1][height-1] = tree;
-        board[0][height-1] = four;
+        board[height-1][0] = two;
+        board[height-1][width-1] = tree;
+        board[0][width-1] = four;
     }
     // генерация еды
 
      void printBoard() {
 
-        for (int i = 0; i < weight; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
 
                 System.out.print(board[i][j] + " ");
             }
@@ -64,9 +64,9 @@ final String RESET = "\u001B[0m";
     }
 
     public void render() {
-        StringBuilder sb = new StringBuilder(weight * height * 2);
-        for (int y = 0; y < weight; y++) {
-            for (int x = 0; x < height; x++) {
+        StringBuilder sb = new StringBuilder(width * height * 2);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 if(board[y][x] == EventLoop.snake.head){
                     sb.append(board[y][x]).append(' ');
                     continue;
@@ -80,7 +80,7 @@ final String RESET = "\u001B[0m";
 
     public void printToConsole() {
         for (int y = 0; y < height; y++) {
-            for (int x = 0; x < weight; x++) System.out.print(board[y][x] + " ");
+            for (int x = 0; x < width; x++) System.out.print(board[y][x] + " ");
             System.out.println();
         }
     }
@@ -89,9 +89,9 @@ public char[][] getBoard(){return board;}
 
 
 
-public char getPointCharBoard(int PointX, int PointY){return board[PointX][PointY];}
-public void putPointBoard(int PointX , int PoitnY , char str) {board[PointX][PoitnY] = str;}
-    public int getWeight(){return weight;}
+public char getPointCharBoard(int PointX, int PointY){return board[PointY][PointX];}
+public void putPointBoard(int PointX , int PointY , char str) {board[PointY][PointX] = str;}
+    public int getWeight(){return width;}
 
     public int getHeight(){return height;}
 }
